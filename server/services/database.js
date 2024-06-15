@@ -6,7 +6,8 @@ const config = mysql.createConnection({
     host: "atp.fhstp.ac.at",
     port: 8007,
     user: process.env.DB_USERNAME,
-    password: process.env.DB_PASSWORD
+    password: process.env.DB_PASSWORD,
+    database: "cc231051"
 });
 
 config.connect(function(err){
