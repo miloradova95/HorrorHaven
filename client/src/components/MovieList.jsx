@@ -1,5 +1,8 @@
+// MovieList.jsx
+
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
+import { Link } from 'react-router-dom'; // Import Link from react-router-dom
+import axios from './axiosConfig';
 
 function MovieList() {
   const [movies, setMovies] = useState([]);
@@ -23,9 +26,14 @@ function MovieList() {
       <ul>
         {movies.map(movie => (
           <li key={movie.id}>
-            {movie.title}
-            {movie.poster}
-            <img src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`} style={{ width: "150px" }} alt={movie.title || movie.name} />
+            <Link to={`/movies/${movie.id}`}>
+              {movie.title}
+              <img
+                src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
+                style={{ width: "150px", margin: "10px" }}
+                alt={movie.title || movie.name}
+              />
+            </Link>
           </li>
         ))}
       </ul>
