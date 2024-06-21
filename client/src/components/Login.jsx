@@ -23,9 +23,9 @@ function Login() {
         try {
             const response = await axios.post('http://localhost:3000/login', formData);
             console.log('Login Response:', response.data); // Log the entire response for clarity
-    
+
             const userId = response.data.id; // Accessing the user ID from the response
-    
+
             if (userId) {
                 navigate(`/profile/${userId}`);
             } else {
@@ -38,18 +38,21 @@ function Login() {
     };
 
     return (
-        <form onSubmit={handleSubmit}>
-            <div>
-                <label>Username:</label>
-                <input type="text" name="username" value={formData.username} onChange={handleChange} required />
-            </div>
-            <div>
-                <label>Password:</label>
-                <input type="password" name="password" value={formData.password} onChange={handleChange} required />
-            </div>
-            <button type="submit">Login</button>
-        </form>
+        <div className="card">
+            <h2>Login</h2>
+            <form onSubmit={handleSubmit}>
+                <div>
+                    <label>Username:</label>
+                    <input type="text" name="username" value={formData.username} onChange={handleChange} required />
+                </div>
+                <div>
+                    <label>Password:</label>
+                    <input type="password" name="password" value={formData.password} onChange={handleChange} required />
+                </div>
+                <button type="submit">Login</button>
+            </form>
+        </div>
     );
 }
 
-export default Login; 
+export default Login;

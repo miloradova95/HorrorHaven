@@ -59,7 +59,7 @@ function Profile() {
     }
 
     return (
-        <div>
+        <div className="card">
             <h2>User Profile</h2>
             {editMode ? (
                 <form onSubmit={handleSubmit}>
