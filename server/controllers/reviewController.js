@@ -4,7 +4,7 @@ const getReviewsByMovieId = async (req, res) => {
   const { movieId } = req.params;
   
   try {
-    const reviews = await ReviewModel.findByMovieId(movieId);
+    const reviews = await reviewModel.getReviewsByMovieId(movieId); // Fix the function name here
     if (reviews.length === 0) {
       // Return an empty array if no reviews are found instead of 404
       return res.status(200).json([]);
