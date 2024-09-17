@@ -3,9 +3,8 @@ const router = express.Router();
 const watchlistController = require('../controllers/watchlistController');
 const { authenticateJWT } = require('../services/authentication');
 
-
-router.get('/', authenticateJWT, watchlistController.getUserWatchlist);
-router.post('/add', authenticateJWT, watchlistController.addMovieToWatchlist);
-router.delete('/remove', authenticateJWT, watchlistController.removeMovieFromWatchlist);
+router.post('/add', authenticateJWT, watchlistController.addToWatchlist);
+router.delete('/remove', authenticateJWT, watchlistController.removeFromWatchlist);
+router.get('/:userId', authenticateJWT, watchlistController.getWatchlistByUserId);
 
 module.exports = router;

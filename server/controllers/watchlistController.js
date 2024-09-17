@@ -1,40 +1,43 @@
 const watchlistModel = require('../models/watchlistModel');
-const { getUserIdFromToken } = require('../services/authentication');
 
-// Add a movie to the watchlist
-exports.addMovieToWatchlist = async (req, res) => {
-    const userId = getUserIdFromToken(req); // Fetch user ID from token
-    const { movieId } = req.body;
+
+async function addToWatchlist(req, res) {
+    const { userId, movieId } = req.body;
     try {
-        await watchlistModel.addMovieToWatchlist(userId, movieId);
-        res.status(201).json({ message: 'Movie added to watchlist' });
+        await watchlistModel.addToWatchlist(userId, movieId);
+        res.sendStatus(201);
     } catch (error) {
         console.error('Error adding movie to watchlist:', error);
-        res.status(500).json({ message: 'Error adding movie to watchlist' });
+        res.status(500).json({ error: 'Failed to add movie to watchlist' });
     }
-};
+}
 
-// Get user's watchlist
-exports.getUserWatchlist = async (req, res) => {
-    const userId = getUserIdFromToken(req); // Fetch user ID from token
-    try {
-        const watchlist = await watchlistModel.getUserWatchlist(userId);
-        res.status(200).json(watchlist);
-    } catch (error) {
-        console.error('Error fetching watchlist:', error);
-        res.status(500).json({ message: 'Error fetching watchlist' });
-    }
-};
 
-// Remove a movie from the watchlist
-exports.removeMovieFromWatchlist = async (req, res) => {
-    const userId = getUserIdFromToken(req); // Fetch user ID from token
-    const { movieId } = req.body;
+async function removeFromWatchlist(req, res) {
+    const { userId, movieId } = req.body;
     try {
-        await watchlistModel.removeMovieFromWatchlist(userId, movieId);
-        res.status(200).json({ message: 'Movie removed from watchlist' });
+        await watchlistModel.removeFromWatchlist(userId, movieId);
+        res.sendStatus(204);
     } catch (error) {
         console.error('Error removing movie from watchlist:', error);
-        res.status(500).json({ message: 'Error removing movie from watchlist' });
+        res.status(500).json({ error: 'Failed to remove movie from watchlist' });
     }
+}
+
+
+async function getWatchlistByUserId(req, res) {
+    const userId = req.params.userId;
+    try {
+        const watchlist = await watchlistModel.getWatchlistByUserId(userId);
+        res.json(watchlist);
+    } catch (error) {
+        console.error('Error fetching watchlist:', error);
+        res.status(500).json({ error: 'Failed to fetch watchlist' });
+    }
+}
+
+module.exports = {
+    addToWatchlist,
+    removeFromWatchlist,
+    getWatchlistByUserId,
 };

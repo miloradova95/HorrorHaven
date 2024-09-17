@@ -1,35 +1,41 @@
-const pool = require('../services/database').config;
+const db = require('../services/database').config;
 
-// Add a movie to the watchlist
-async function addMovieToWatchlist(userId, movieId) {
+
+async function addToWatchlist(userId, movieId) {
     try {
-        await pool.execute('INSERT INTO watchlists (user_id, movie_id) VALUES (?, ?)', [userId, movieId]);
+        const query = 'INSERT INTO watchlist (user_id, movie_id) VALUES (?, ?)';
+        await db.execute(query, [userId, movieId]);
     } catch (error) {
+        console.error('Error adding movie to watchlist:', error);
         throw new Error('Error adding movie to watchlist');
     }
 }
 
-// Get user's watchlist
-async function getUserWatchlist(userId) {
-    try {
-        const [rows] = await pool.execute('SELECT * FROM watchlists WHERE user_id = ?', [userId]);
-        return rows;
-    } catch (error) {
-        throw new Error('Error fetching watchlist');
-    }
-}
 
-// Remove a movie from the watchlist
-async function removeMovieFromWatchlist(userId, movieId) {
+async function removeFromWatchlist(userId, movieId) {
     try {
-        await pool.execute('DELETE FROM watchlists WHERE user_id = ? AND movie_id = ?', [userId, movieId]);
+        const query = 'DELETE FROM watchlist WHERE user_id = ? AND movie_id = ?';
+        await db.execute(query, [userId, movieId]);
     } catch (error) {
+        console.error('Error removing movie from watchlist:', error);
         throw new Error('Error removing movie from watchlist');
     }
 }
 
+
+async function getWatchlistByUserId(userId) {
+    try {
+        const query = 'SELECT * FROM watchlist WHERE user_id = ?';
+        const [rows] = await db.execute(query, [userId]);
+        return rows;
+    } catch (error) {
+        console.error('Database error fetching watchlist:', error);
+        throw new Error('Error fetching watchlist');
+    }
+}
+
 module.exports = {
-    addMovieToWatchlist,
-    getUserWatchlist,
-    removeMovieFromWatchlist
+    addToWatchlist,
+    removeFromWatchlist,
+    getWatchlistByUserId,
 };

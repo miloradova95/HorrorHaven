@@ -1,17 +1,25 @@
-// MovieList.jsx
-
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import axios from './axiosConfig';
 
 function MovieList() {
   const [movies, setMovies] = useState([]);
-
+  
   useEffect(() => {
     const fetchMovies = async () => {
       try {
         const response = await axios.get('http://localhost:3000/movies');
-        setMovies(response.data.results);
+        const moviesWithDetails = await Promise.all(
+          response.data.results.map(async (movie) => {
+            // Make another API call to fetch details (runtime, etc.)
+            const movieDetails = await axios.get(`http://localhost:3000/movies/${movie.id}`);
+            return {
+              ...movie,
+              runtime: movieDetails.data.runtime || 'Unknown', // Set runtime if available
+            };
+          })
+        );
+        setMovies(moviesWithDetails);
       } catch (error) {
         console.error('Error fetching movies:', error);
       }
@@ -19,18 +27,6 @@ function MovieList() {
 
     fetchMovies();
   }, []);
-
-  const addToWatchlist = async (movieId) => {
-    try {
-      await axios.post('/watchlist/add', { movieId });
-      alert('Movie added to watchlist');
-    } catch (error) {
-      console.error('Error adding to watchlist:', error);
-      if (error.response && error.response.status === 401) {
-        alert('Please log in to add to watchlist');
-      }
-    }
-  };
 
   return (
     <div className="table-container">
@@ -41,7 +37,6 @@ function MovieList() {
             <th>Title</th>
             <th>Year of release</th>
             <th>Duration</th>
-            <th>Director</th>
             <th>Rating</th>
             <th>Poster</th>
           </tr>
@@ -54,7 +49,6 @@ function MovieList() {
               </td>
               <td>{movie.release_date.split('-')[0]}</td>
               <td>{`${movie.runtime} min.`}</td>
-              <td>{movie.director}</td>
               <td>{movie.vote_average}</td>
               <td>
                 <img

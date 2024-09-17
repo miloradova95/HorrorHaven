@@ -1,96 +1,20 @@
-/* App.css */
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&display=swap');
 
-/* Global Styles */
-body {
-  background-color: #333;
-  color: #fff;
-  font-family: 'Arial', sans-serif;
+
+
+
+
+html, body {
+  height: 100%;
   margin: 0;
   padding: 0;
-}
-
-/* Navbar Styles */
-.navbar {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 10px 20px;
-  background-color: #444;
-}
-
-.navbar img {
-  height: 50px;
-}
-
-.navbar .links {
-  display: flex;
-  align-items: center;
-}
-
-.navbar .links a {
+  background:
+    linear-gradient(rgba(43, 43, 43, 0.9), rgba(18, 18, 18, 18)), /* Dark gradient with transparency */
+    url('./assets/BjAmGD4.jpg'); /* Path to your image */
+  background-size: cover; /* Ensure the background image covers the entire area */
+  background-position: center; /* Center the background image */
+  background-attachment: fixed; /* Keep the background fixed while scrolling */
+  background-repeat: no-repeat; /* No repeating of the image */
   color: #fff;
-  text-decoration: none;
-  margin: 0 10px;
-}
-
-.navbar .links a:hover {
-  text-decoration: underline;
-}
-
-/* Main Heading */
-.main-heading {
-  text-align: center;
-  font-size: 48px;
-  font-family: 'Horror', sans-serif; /* Assuming you have a custom font named Horror */
-  margin-top: 20px;
-}
-
-/* Alphabet Filter */
-.alphabet-filter {
-  text-align: center;
-  margin: 20px 0;
-}
-
-.alphabet-filter span {
-  margin: 0 5px;
-  cursor: pointer;
-}
-
-.alphabet-filter span:hover {
-  text-decoration: underline;
-}
-
-/* Table Styles */
-.table-container {
-  width: 90%;
-  margin: 20px auto;
-  overflow-x: auto;
-}
-
-table {
-  width: 100%;
-  border-collapse: collapse;
-  background-color: #222;
-}
-
-th, td {
-  border: 1px solid #444;
-  padding: 10px;
-  text-align: left;
-}
-
-th {
-  background-color: #333;
-  font-weight: bold;
-}
-
-td img {
-  width: 50px;
-  height: auto;
-}
-
-@media (max-width: 768px) {
-  .navbar .links a {
-    margin: 0 5px;
-  }
+  font-family: 'Cinzel', serif; /* Apply the new font */
 }

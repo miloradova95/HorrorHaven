@@ -3,11 +3,12 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const { authenticateUser } = require('../services/authentication');
 
+
 async function registerUser(req, res)  {
-    const { username, name, surname, email, info, password, image } = req.body;
+    const { username, name, surname, email, info, password, images } = req.body;
 
     try {
-        const newUser = await userModel.addUser({ username, name, surname, email, info, password, image });
+        const newUser = await userModel.addUser({ username, name, surname, email, info, password, images });
         res.status(201).json({ message: 'User registered sucessfully', user: newUser });
     } catch (error) {
         console.error('Error while registering user:', error);

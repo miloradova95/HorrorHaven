@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { AuthContext } from './AuthContext';
 import axios from './axiosConfig';
 
 function Login() {
@@ -8,6 +9,7 @@ function Login() {
         password: ''
     });
 
+    const { login } = useContext(AuthContext);
     const navigate = useNavigate();
 
     const handleChange = (e) => {
@@ -21,16 +23,17 @@ function Login() {
         e.preventDefault();
         console.log('Form Data:', formData);
         try {
-            const response = await axios.post('http://localhost:3000/login', formData);
-            console.log('Login Response:', response.data); // Log the entire response for clarity
 
-            const userId = response.data.id; // Accessing the user ID from the response
+            const response = await axios.post('http://localhost:3000/login', formData, { withCredentials: true });
+            console.log('Login Response:', response.data);
+
+            const userId = response.data.id;
 
             if (userId) {
+                login(formData);
                 navigate(`/profile/${userId}`);
             } else {
-                console.error('User id not found in response:', response.data);
-                // Handle the case where userId is not available in the response
+                console.error('User ID not found in response:', response.data);
             }
         } catch (error) {
             console.error('Error while logging in:', error);

@@ -1,59 +1,79 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import axios from './axiosConfig';
-import { useNavigate } from 'react-router-dom';
+import { AuthContext } from './AuthContext';
+import { Link } from 'react-router-dom';
 
-function Watchlist() {
+const Watchlist = () => {
+  const { user } = useContext(AuthContext);
   const [watchlist, setWatchlist] = useState([]);
-  const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchWatchlist = async () => {
-      try {
-        const response = await axios.get('/watchlist');
-        setWatchlist(response.data);
-      } catch (error) {
-        console.error('Error fetching watchlist:', error);
-        setError('Failed to fetch watchlist. Please log in.');
-      } finally {
-        setLoading(false);
+      if (user) {
+        try {
+          const response = await axios.get(`/watchlist/${user.id}`);
+          const watchlistMovies = response.data;
+
+          const movieDetailsPromises = watchlistMovies.map(async (movie) => {
+            const movieDetailsResponse = await axios.get(`/movies/${movie.movie_id}`);
+            return movieDetailsResponse.data;
+          });
+
+          const movieDetails = await Promise.all(movieDetailsPromises);
+          setWatchlist(movieDetails);
+        } catch (error) {
+          console.error('Error fetching watchlist:', error);
+          setError('Failed to fetch watchlist. Please try again later.');
+        }
       }
     };
 
     fetchWatchlist();
-  }, []);
+  }, [user]);
 
-  const removeFromWatchlist = async (movieId) => {
-    try {
-      await axios.delete('/watchlist/remove', { data: { movieId } });
-      setWatchlist(watchlist.filter(movie => movie.movie_id !== movieId));
-    } catch (error) {
-      console.error('Error removing from watchlist:', error);
-    }
-  };
+  if (!user) {
+    return <div>Please log in to view your watchlist.</div>;
+  }
 
-  if (loading) return <div>Loading...</div>;
-  if (error) return <div>{error}</div>;
+  if (error) {
+    return <div>{error}</div>;
+  }
 
   return (
-    <div>
+    <div className="table-container">
       <h1>Your Watchlist</h1>
-      {watchlist.length === 0 ? (
-        <p>No movies in your watchlist. Add some!</p>
-      ) : (
-        <ul>
-          {watchlist.map(movie => (
-            <li key={movie.movie_id}>
-              <span>{movie.title}</span>
-              <button onClick={() => navigate(`/movies/${movie.movie_id}`)}>View Details</button>
-              <button onClick={() => removeFromWatchlist(movie.movie_id)}>Remove</button>
-            </li>
+      <table>
+        <thead>
+          <tr>
+            <th>Title</th>
+            <th>Year of release</th>
+            <th>Duration</th>
+            <th>Rating</th>
+            <th>Poster</th>
+          </tr>
+        </thead>
+        <tbody>
+          {watchlist.map((movie) => (
+            <tr key={movie.id}>
+              <td>
+                <Link to={`/movies/${movie.id}`}>{movie.title}</Link>
+              </td>
+              <td>{movie.release_date.split('-')[0]}</td>
+              <td>{`${movie.runtime} min.`}</td>
+              <td>{movie.vote_average}</td>
+              <td>
+                <img
+                  src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
+                  alt={movie.title || movie.name}
+                />
+              </td>
+            </tr>
           ))}
-        </ul>
-      )}
+        </tbody>
+      </table>
     </div>
   );
-}
+};
 
 export default Watchlist;

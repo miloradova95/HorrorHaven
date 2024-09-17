@@ -1,10 +1,89 @@
-/* Global Styles */
+@import 'slick-carousel/slick/slick.css';
+@import 'slick-carousel/slick/slick-theme.css';
+
 body {
   background-color: #333;
   color: #fff;
   font-family: 'Arial', sans-serif;
   margin: 0;
   padding: 0;
+}
+
+
+html, body {
+  font-size: 16px;
+  overflow-x: hidden;
+}
+
+
+h1, h2, h3, h4, h5, h6 {
+  font-size: calc(1.2rem + 0.8vw);
+}
+
+p, label {
+  font-size: calc(1rem + 0.3vw);
+}
+
+/* Slider Container */
+.slick-slider {
+  width: 90vw;
+  margin: 0 auto;
+}
+
+.slick-slide {
+  position: relative;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.slick-slide img {
+  width: 40vw;
+  height: auto;
+  max-height: 60vh;
+  margin: 0 auto;
+}
+
+.slide-content {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: rgba(0, 0, 0, 0.7);
+  color: #fff;
+  padding: 10px;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  text-align: center;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.slick-slide:hover .slide-content {
+  opacity: 1;
+}
+
+.slide-content h3 {
+  font-size: 1.5rem;
+}
+
+.slide-content p {
+  font-size: 1.2rem;
+}
+
+.slick-prev, .slick-next {
+  z-index: 1;
+  color: #fff;
+}
+
+.slick-dots li button:before {
+  font-size: 12px;
+  color: #fff;
+}
+
+.slick-dots li.slick-active button:before {
+  color: #f00;
 }
 
 /* Navbar Styles */
@@ -35,7 +114,6 @@ body {
   text-decoration: underline;
 }
 
-/* Main Heading */
 .main-heading {
   text-align: center;
   margin-top: 20px;
@@ -46,7 +124,6 @@ body {
   height: auto;
 }
 
-/* Alphabet Filter */
 .alphabet-filter {
   text-align: center;
   margin: 20px 0;
@@ -57,10 +134,11 @@ body {
   cursor: pointer;
 }
 
-alphabet-filter span:hover {
+.alphabet-filter span:hover {
   text-decoration: underline;
 }
 
+/* Card Styles */
 .card {
   background-color: #222;
   border: 1px solid #444;
@@ -74,11 +152,10 @@ alphabet-filter span:hover {
 .card h2 {
   font-size: 28px;
   margin-bottom: 20px;
-  font-family: 'Horror', sans-serif; /* Assuming you have a custom font named Horror */
+  font-family: 'Horror', sans-serif;
 }
 
-.card form div,
-.card div {
+.card form div, .card div {
   margin-bottom: 15px;
 }
 
@@ -88,9 +165,7 @@ alphabet-filter span:hover {
   font-weight: bold;
 }
 
-.card input,
-.card textarea,
-.card button {
+.card input, .card textarea, .card button {
   width: 100%;
   padding: 10px;
   margin-top: 5px;
@@ -109,7 +184,6 @@ alphabet-filter span:hover {
   background-color: #555;
 }
 
-/* Link Styles */
 .card a {
   color: #fff;
   text-decoration: none;
@@ -121,37 +195,7 @@ alphabet-filter span:hover {
   text-decoration: underline;
 }
 
-
 /* Table Styles */
-.table-container {
-  width: 90%;
-  margin: 20px auto;
-  overflow-x: auto;
-}
-
-table {
-  width: 100%;
-  border-collapse: collapse;
-  background-color: #222;
-}
-
-th, td {
-  border: 1px solid #444;
-  padding: 10px;
-  text-align: left;
-}
-
-th {
-  background-color: #333;
-  font-weight: bold;
-}
-
-td img {
-  width: 50px;
-  height: auto;
-}
-
-/* MovieList Styles */
 .table-container {
   width: 90%;
   margin: 20px auto;
@@ -190,22 +234,24 @@ td img {
   color: #fff;
   margin: 20px auto;
   max-width: 1200px;
+  flex-wrap: wrap;
 }
 
 .movie-poster img {
-  max-width: 300px;
-  height: auto;
+  max-width: 100%;
+  max-height: 500px;
 }
 
 .movie-info {
   margin-left: 20px;
   max-width: 600px;
+  flex-grow: 1;
 }
 
 .movie-info h2 {
   font-size: 36px;
   margin-bottom: 10px;
-  font-family: 'Horror', sans-serif; /* Assuming you have a custom font named Horror */
+  font-family: 'Horror', sans-serif;
 }
 
 .movie-info p {
@@ -243,6 +289,45 @@ td img {
   background-color: #555;
 }
 
+.review-section {
+  margin-top: 20px;
+}
+
+.review-section h3 {
+  font-size: 24px;
+}
+
+.review-rating {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+textarea {
+  width: 100%;
+  padding: 10px;
+  background-color: #222;
+  color: #fff;
+  border: 1px solid #444;
+  border-radius: 4px;
+  margin-bottom: 10px;
+}
+
+.reviews-list {
+  margin-top: 30px;
+}
+
+.review-item {
+  background-color: #222;
+  padding: 10px;
+  margin-bottom: 10px;
+  border-radius: 4px;
+}
+
+.review-item strong {
+  font-size: 18px;
+}
+
 /* Responsive Styles */
 @media (max-width: 768px) {
   .navbar .links a {
@@ -265,5 +350,44 @@ td img {
 
   .card {
     max-width: 90%;
+  }
+
+  .slick-slide img {
+    width: 70vw;
+  }
+
+  .slick-slider {
+    width: 95vw;
+  }
+
+  .slick-prev, .slick-next {
+    display: none; /* Hide navigation on smaller screens */
+  }
+
+  .navbar img {
+    height: 40px;
+  }
+
+  .table-container {
+    width: 100%;
+  }
+}
+
+/* Additional media query for extra small devices */
+@media (max-width: 480px) {
+  .navbar .links a {
+    margin: 0 3px;
+  }
+
+  .movie-info h2 {
+    font-size: 28px;
+  }
+
+  .slick-slide img {
+    width: 80vw;
+  }
+
+  .review-item strong {
+    font-size: 16px;
   }
 }

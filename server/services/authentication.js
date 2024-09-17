@@ -5,16 +5,18 @@ const bcrypt = require('bcrypt')
 //Called in our Login function. Receives typed in {username, password}, all the users from the db and res
 //If it finds a user with that username and the checkPassword comes back true
 // an accessToken for this session is created and stored in cookies as 'accessToken'
-async function authenticateUser({username, password}, users, res){
-    const user = users.find (u => {
-        return u.username === username
-    })
+async function authenticateUser({ username, password }, users, res) {
+    const user = users.find(u => {
+        return u.username === username;
+    });
 
-    if(user && await checkPassword(password, user.password)){
-        const accessToken = jwt.sign({id:user.id, name:user.name}, process.env.ACCESS_TOKEN_SECRET)
-        res.cookie('accessToken', accessToken)
-        res.redirect('/users/'+ user.id)
-    }else {res.send('username or password are incorrect')}
+    if (user && await checkPassword(password, user.password)) {
+        const accessToken = jwt.sign({ id: user.id, name: user.name }, process.env.ACCESS_TOKEN_SECRET);
+        res.cookie('accessToken', accessToken);
+        res.json({ id: user.id, message: 'Login successful' });
+    } else {
+        res.status(401).json({ message: 'Username or password are incorrect' });
+    }
 }
 
 
