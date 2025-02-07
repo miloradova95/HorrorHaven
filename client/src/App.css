@@ -1,0 +1,20 @@
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&display=swap');
+
+
+
+
+
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  background:
+    linear-gradient(rgba(43, 43, 43, 0.9), rgba(18, 18, 18, 18)), /* Dark gradient with transparency */
+    url('./assets/BjAmGD4.jpg'); /* Path to your image */
+  background-size: cover; /* Ensure the background image covers the entire area */
+  background-position: center; /* Center the background image */
+  background-attachment: fixed; /* Keep the background fixed while scrolling */
+  background-repeat: no-repeat; /* No repeating of the image */
+  color: #fff;
+  font-family: 'Cinzel', serif; /* Apply the new font */
+}
