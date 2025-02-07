@@ -1,5 +1,7 @@
 # HorrorHaven
 
+This project was created during the Creative Code Lab at UAS St. Pölten. Within 14 days, I had to develop a functional web application that incorporated a database, user authentication, and a frontend framework of my choice.
+
 HorrorHaven is a web application for horror movie enthusiasts to explore and engage with their favorite films. Users can browse an extensive collection of horror movies, access detailed metadata from the TMDB API, create personalized watchlists, and geek out through a commenting system.
 
 ## Tech Stack
